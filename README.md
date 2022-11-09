@@ -1,28 +1,23 @@
-# This package is no longer being updated! Please look for alternatives if that bothers you.
-
-Resize
-======
+# Resize
 
 Image resizing for the [Go programming language](http://golang.org) with common interpolation methods.
 
-[![Build Status](https://travis-ci.org/nfnt/resize.svg)](https://travis-ci.org/nfnt/resize)
+An active fork of [github.com/nfnt/resize](nfnt/resize)
 
-Installation
-------------
+## Installation
 
 ```bash
-$ go get github.com/nfnt/resize
+go get go.oneofone.dev/resize
 ```
 
 It's that easy!
 
-Usage
------
+## Usage
 
-This package needs at least Go 1.1. Import package with
+This package needs at least Go 1.18. Import package with
 
 ```go
-import "github.com/nfnt/resize"
+import "go.oneofone.dev/resize"
 ```
 
 The resize package provides 2 functions:
@@ -39,12 +34,12 @@ resize.Thumbnail(maxWidth, maxHeight uint, img image.Image, interp resize.Interp
 
 The provided interpolation functions are (from fast to slow execution time)
 
-- `NearestNeighbor`: [Nearest-neighbor interpolation](http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation)
-- `Bilinear`: [Bilinear interpolation](http://en.wikipedia.org/wiki/Bilinear_interpolation)
-- `Bicubic`: [Bicubic interpolation](http://en.wikipedia.org/wiki/Bicubic_interpolation)
-- `MitchellNetravali`: [Mitchell-Netravali interpolation](http://dl.acm.org/citation.cfm?id=378514)
-- `Lanczos2`: [Lanczos resampling](http://en.wikipedia.org/wiki/Lanczos_resampling) with a=2
-- `Lanczos3`: [Lanczos resampling](http://en.wikipedia.org/wiki/Lanczos_resampling) with a=3
+* `NearestNeighbor`: [Nearest-neighbor interpolation](http://en.wikipedia.org/wiki/Nearest-neighbor_interpolation)
+* `Bilinear`: [Bilinear interpolation](http://en.wikipedia.org/wiki/Bilinear_interpolation)
+* `Bicubic`: [Bicubic interpolation](http://en.wikipedia.org/wiki/Bicubic_interpolation)
+* `MitchellNetravali`: [Mitchell-Netravali interpolation](http://dl.acm.org/citation.cfm?id=378514)
+* `Lanczos2`: [Lanczos resampling](http://en.wikipedia.org/wiki/Lanczos_resampling) with a=2
+* `Lanczos3`: [Lanczos resampling](http://en.wikipedia.org/wiki/Lanczos_resampling) with a=3
 
 Which of these methods gives the best results depends on your use case.
 
@@ -54,7 +49,7 @@ Sample usage:
 package main
 
 import (
-	"github.com/nfnt/resize"
+	"go.oneofone.dev/resize"
 	"image/jpeg"
 	"log"
 	"os"
@@ -89,15 +84,12 @@ func main() {
 }
 ```
 
-Caveats
--------
+## Caveats
 
 * Optimized access routines are used for `image.RGBA`, `image.NRGBA`, `image.RGBA64`, `image.NRGBA64`, `image.YCbCr`, `image.Gray`, and `image.Gray16` types. All other image types are accessed in a generic way that will result in slow processing speed.
-* JPEG images are stored in `image.YCbCr`. This image format stores data in a way that will decrease processing speed. A resize may be up to 2 times slower than with `image.RGBA`. 
+* JPEG images are stored in `image.YCbCr`. This image format stores data in a way that will decrease processing speed. A resize may be up to 2 times slower than with `image.RGBA`.
 
-
-Downsizing Samples
--------
+## Downsizing Samples
 
 Downsizing is not as simple as it might look like. Images have to be filtered before they are scaled down, otherwise aliasing might occur.
 Filtering is highly subjective: Applying too much will blur the whole image, too little will make aliasing become apparent.
@@ -125,7 +117,7 @@ Original image
 
 ### Real-Life sample
 
-Original image  
+Original image
 ![Original](http://nfnt.github.com/img/IMG_3694_720.jpg)
 
 <table>
@@ -143,9 +135,9 @@ Original image
 </tr>
 </table>
 
-
 License
 -------
 
 Copyright (c) 2012 Jan Schlicht <janschlicht@gmail.com>
+Copyright (c) 2022, Ahmed W. <oneofone@gmail.com>
 Resize is released under a MIT style license.
