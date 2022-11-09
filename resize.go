@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2012-2018, Jan Schlicht <jan.schlicht@gmail.com>
-Copyright (c) 2022-, Ahmed W. <oneofone@gmail.com>
+Copyright (c) 2022, Ahmed W. <oneofone@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
