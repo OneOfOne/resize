@@ -73,7 +73,7 @@ func (i InterpolationFunction) kernel() (int, func(float64) float64) {
 }
 
 // values <1 will sharpen the image
-var blur = 1.0
+const defaultBlur = 1.0
 
 // Resize scales an image to new width and height using the interpolation function interp.
 // A new image with the given dimensions will be returned.
@@ -82,6 +82,16 @@ var blur = 1.0
 // The resizing algorithm uses channels for parallel computation.
 // If the input image has width or height of 0, it is returned unchanged.
 func Resize(width, height uint, img image.Image, interp InterpolationFunction) image.Image {
+	return ResizeWithBlur(width, height, img, defaultBlur, interp)
+}
+
+// ResizeWithBlur scales an image to new width and height using the interpolation function interp and given blur factor.
+// A new image with the given dimensions will be returned.
+// If one of the parameters width or height is set to 0, its size will be calculated so that
+// the aspect ratio is that of the originating image.
+// The resizing algorithm uses channels for parallel computation.
+// If the input image has width or height of 0, it is returned unchanged.
+func ResizeWithBlur(width, height uint, img image.Image, blur float64, interp InterpolationFunction) image.Image {
 	scaleX, scaleY := calcFactors(width, height, float64(img.Bounds().Dx()), float64(img.Bounds().Dy()))
 	if width == 0 {
 		width = uint(0.7 + float64(img.Bounds().Dx())/scaleX)
@@ -101,7 +111,7 @@ func Resize(width, height uint, img image.Image, interp InterpolationFunction) i
 	}
 
 	if interp == NearestNeighbor {
-		return resizeNearest(width, height, scaleX, scaleY, img, interp)
+		return resizeNearest(width, height, scaleX, scaleY, img, blur, interp)
 	}
 
 	taps, kernel := interp.kernel()
@@ -348,7 +358,7 @@ func Resize(width, height uint, img image.Image, interp InterpolationFunction) i
 	}
 }
 
-func resizeNearest(width, height uint, scaleX, scaleY float64, img image.Image, interp InterpolationFunction) image.Image {
+func resizeNearest(width, height uint, scaleX, scaleY float64, img image.Image, blur float64, interp InterpolationFunction) image.Image {
 	taps, _ := interp.kernel()
 	cpus := runtime.GOMAXPROCS(0)
 	wg := sync.WaitGroup{}

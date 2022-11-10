@@ -23,14 +23,17 @@ import (
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+
+	_ "golang.org/x/image/tiff"
+	_ "golang.org/x/image/webp"
 )
 
 // ResizeReader decodes an image from a reader and calls Resize with the given params.
 // Supported formats are: PNG, JPEG, GIF by default.
 // To support other formats, import the package that implements the format.
-func ResizeReader(width, height uint, rd io.Reader, interp InterpolationFunction) (img image.Image, format string, err error) {
+func ResizeReader(width, height uint, rd io.Reader, blur float64, interp InterpolationFunction) (img image.Image, format string, err error) {
 	if img, format, err = image.Decode(rd); err == nil {
-		img = Resize(width, height, img, interp)
+		img = ResizeWithBlur(width, height, img, blur, interp)
 	}
 	return
 }
